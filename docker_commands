@@ -1,0 +1,41 @@
+# TechTrends — Docker build, run, and logs
+# Run these from the repository root (parent of the `techtrends/` app directory).
+
+# -----------------------------------------------------------------------------
+# Build image (reference Dockerfile in techtrends/, tag as techtrends)
+# -----------------------------------------------------------------------------
+docker build -f techtrends/Dockerfile -t techtrends ./techtrends
+
+# Example build output (truncated):
+# ...
+# naming to docker.io/library/techtrends done
+
+# -----------------------------------------------------------------------------
+# Run locally (detached, host port 7111 -> container 3111)
+# -----------------------------------------------------------------------------
+docker rm -f techtrends-local 2>/dev/null
+docker run -d -p 7111:3111 --name techtrends-local techtrends
+
+# Application: http://127.0.0.1:7111/
+
+# -----------------------------------------------------------------------------
+# Stream container logs (STDOUT/STDERR)
+# -----------------------------------------------------------------------------
+docker logs techtrends-local
+
+# Example logs after hitting /healthz and /metrics:
+#  * Serving Flask app 'app' (lazy loading)
+#  * Environment: production
+#    WARNING: This is a development server. Do not use it in a production deployment.
+#    Use a production WSGI server instead.
+#  * Debug mode: off
+# 04/01/2026, 19:40:31 WARNING:werkzeug: * Running on all addresses.
+#    WARNING: This is a development server. Do not use it in a production deployment.
+# 04/01/2026, 19:40:31 INFO:werkzeug: * Running on http://172.30.254.4:3111/ (Press CTRL+C to quit)
+# 04/01/2026, 19:40:33 INFO:werkzeug:172.30.254.1 - - [01/Apr/2026 19:40:33] "GET /healthz HTTP/1.1" 200 -
+# 04/01/2026, 19:40:33 INFO:werkzeug:172.30.254.1 - - [01/Apr/2026 19:40:33] "GET /metrics HTTP/1.1" 200 -
+
+# After browsing articles, About, and creating a post, logs will also include lines such as:
+# INFO:app:... Article "<title>" retrieved!
+# INFO:app:... "About Us" page retrieved
+# INFO:app:... New article "<title>" created!

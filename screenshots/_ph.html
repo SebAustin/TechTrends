@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Placeholder</title>
+<style>body{font-family:system-ui,sans-serif;padding:2rem;max-width:720px;line-height:1.5}</style>
+</head><body>
+<h1 id="t">Placeholder</h1>
+<p id="p">Replace this file with your real screenshot after you complete the step.</p>
+<script>
+const q = new URLSearchParams(location.search);
+document.getElementById('t').textContent = q.get('title') || 'Placeholder';
+document.getElementById('p').textContent = q.get('body') || document.getElementById('p').textContent;
+</script>
+</body></html>

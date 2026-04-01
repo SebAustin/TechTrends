@@ -1,0 +1,5 @@
+# Flask 3.x + Werkzeug 3.x support Python 3.8 (Docker) through 3.14+ (local venv).
+# Flask 2.1 / Werkzeug 2.0 break on Python 3.14 (removed pkgutil.get_loader).
+Flask==3.0.3
+werkzeug==3.0.6
+itsdangerous==2.2.0
