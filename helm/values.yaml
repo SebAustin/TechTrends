@@ -1,5 +1,7 @@
 namespace:
-  name: sandbox
+  repository: henrysebastientechtrends   # e.g. sebaustin/techtrends
+  tag: latest
+  pullPolicy: IfNotPresent
 
 service:
   port: 4111
@@ -10,7 +12,7 @@ service:
 image:
   repository: techtrends
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 replicaCount: 1
 
