@@ -1,7 +1,5 @@
 namespace:
-  repository: henrysebastientechtrends   # e.g. sebaustin/techtrends
-  tag: latest
-  pullPolicy: IfNotPresent
+  name: sandbox
 
 service:
   port: 4111
@@ -10,9 +8,9 @@ service:
   type: ClusterIP
 
 image:
-  repository: techtrends
+  repository: sebaustin/techtrends
   tag: latest
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 replicaCount: 1
 
