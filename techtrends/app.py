@@ -9,15 +9,24 @@ db_connection_count = 0
 
 
 def _configure_logging():
-    """Timestamped logs to STDOUT; capture DEBUG-level library logs."""
+    """Timestamped logs to STDOUT (DEBUG+) and STDERR (ERROR+)."""
     log_format = "%(asctime)s %(levelname)s:%(name)s:%(message)s"
     date_format = "%m/%d/%Y, %H:%M:%S"
-    handler = logging.StreamHandler(sys.stdout)
-    handler.setFormatter(logging.Formatter(log_format, datefmt=date_format))
+    formatter = logging.Formatter(log_format, datefmt=date_format)
+
+    stdout_handler = logging.StreamHandler(sys.stdout)
+    stdout_handler.setLevel(logging.DEBUG)
+    stdout_handler.setFormatter(formatter)
+
+    stderr_handler = logging.StreamHandler(sys.stderr)
+    stderr_handler.setLevel(logging.ERROR)
+    stderr_handler.setFormatter(formatter)
+
     root = logging.getLogger()
     root.setLevel(logging.DEBUG)
     root.handlers.clear()
-    root.addHandler(handler)
+    root.addHandler(stdout_handler)
+    root.addHandler(stderr_handler)
 
     app_logger = logging.getLogger("app")
     app_logger.setLevel(logging.DEBUG)
@@ -88,7 +97,7 @@ def index():
 def post(post_id):
     row = get_post(post_id)
     if row is None:
-        logger.info('Article not found, 404 returned for id "%s"', post_id)
+        logger.error('Article not found, 404 returned for id "%s"', post_id)
         return render_template("404.html"), 404
     logger.info('Article "%s" retrieved!', row["title"])
     return render_template("post.html", post=row)
